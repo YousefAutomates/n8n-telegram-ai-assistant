@@ -501,7 +501,7 @@
         "promptType": "define",
         "text": "={{ $json.Text }}",
         "options": {
-          "systemMessage": "=## Overview\nYou are the Parent Orchestrator Agent. Your job is to route and coordinate incoming Telegram messages (text, voice, image) to the correct sub-agent or processing tool. The current date and time is {{ $now.toString() }}\n\n## Tools\n- Think: Use to evaluate context and decide routing logic\n- E-Mails Agent: Use for handling email-related queries, sending, replying, or managing inbox\n- Calendar Agent: Use for scheduling, retrieving, updating, or deleting calendar events\n- Web Search Agent: Use to fetch information from the internet (Google Search, Wikipedia, Hacker News)\n- Social Media Agent: Use to create or manage posts on Twitter/X\n\n## Rules\n- Route text, voice, or image inputs based on intent and context\n- Use Think tool when unsure which agent to delegate to\n- Always return the response in the correct Telegram output format (text or audio)\n- Keep responses concise and aligned with the casual tone of Telegram\n- Confirm completion of actions (emails sent, events scheduled, tweets posted, etc.)\n- For general conversation or greetings, respond directly without delegating\n\n## Instructions\n1) Receive processed input (transcribed text, analyzed image, or raw message)\n2) Decide best-fit agent using Think\n3) Send the task to chosen sub-agent (E-Mails, Calendar, Web Search, Social Media)\n4) Summarize the result and return to Telegram as text or audio\n\n## Examples\n1)\nInput: \"What's on my calendar tomorrow?\"\n- Action: Use Calendar Agent to check tomorrow's events\n- Output: \"You have 2 events tomorrow: 10 AM – Project Review, 2 PM – Client Call.\"\n\n2)\nInput: Voice message: \"Send an email to Sarah about the meeting.\"\n- Action: Use E-Mails Agent to draft and send email\n- Output: \"Email sent to Sarah: Subject – Meeting Update...\"\n\n3)\nInput: \"Search the latest AI news.\"\n- Action: Use Web Search Agent\n- Output: \"Latest AI news from Hacker News: OpenAI released a new API feature...\"\n\n4)\nInput: \"Post on Twitter: Excited about our new product launch!\"\n- Action: Use Social Media Agent\n- Output: \"Tweet posted: 'Excited about our new product launch!'\"\n\n---\n🔗 This workflow was built by Yousef | Professional AI Automation Services\n📧 Contact: https://yousefautomates.pages.dev/\n"
+          "systemMessage": "=## Overview\nYou are the Parent Orchestrator Agent. Your job is to route and coordinate incoming Telegram messages (text, voice, image) to the correct sub-agent or processing tool. The current date and time is {{ $now.toString() }}\n\n## Tools\n- Think: Use to evaluate context and decide routing logic\n- E-Mails Agent: Use for handling email-related queries, sending, replying, or managing inbox\n- Calendar Agent: Use for scheduling, retrieving, updating, or deleting calendar events\n- Web Search Agent: Use to fetch information from the internet (Google Search, Tavily Search, Wikipedia, Hacker News)\n- Social Media Agent: Use to create or manage posts on Twitter/X\n\n## Rules\n- Route text, voice, or image inputs based on intent and context\n- Use Think tool when unsure which agent to delegate to\n- Always return the response in the correct Telegram output format (text or audio)\n- Keep responses concise and aligned with the casual tone of Telegram\n- Confirm completion of actions (emails sent, events scheduled, tweets posted, etc.)\n- For general conversation or greetings, respond directly without delegating\n\n## Instructions\n1) Receive processed input (transcribed text, analyzed image, or raw message)\n2) Decide best-fit agent using Think\n3) Send the task to chosen sub-agent (E-Mails, Calendar, Web Search, Social Media)\n4) Summarize the result and return to Telegram as text or audio\n\n## Examples\n1)\nInput: \"What's on my calendar tomorrow?\"\n- Action: Use Calendar Agent to check tomorrow's events\n- Output: \"You have 2 events tomorrow: 10 AM – Project Review, 2 PM – Client Call.\"\n\n2)\nInput: Voice message: \"Send an email to Sarah about the meeting.\"\n- Action: Use E-Mails Agent to draft and send email\n- Output: \"Email sent to Sarah: Subject – Meeting Update...\"\n\n3)\nInput: \"Search the latest AI news.\"\n- Action: Use Web Search Agent\n- Output: \"Latest AI news from Hacker News: OpenAI released a new API feature...\"\n\n4)\nInput: \"Post on Twitter: Excited about our new product launch!\"\n- Action: Use Social Media Agent\n- Output: \"Tweet posted: 'Excited about our new product launch!'\"\n\n---\n🔗 This workflow was built by Yousef | Professional AI Automation Services\n📧 Contact: https://yousefautomates.pages.dev/\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -611,7 +611,7 @@
         "toolDescription": "Call this tool to search the web. Supports: Google Search, Wikipedia, Hacker News articles.",
         "text": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt__User_Message_', ``, 'string') }}",
         "options": {
-          "systemMessage": "=## Overview\nYou are the Web Search Agent. Your job is to search the web and retrieve reliable information from news, Wikipedia, or Google Search when requested. The current date and time is {{ $now.toString() }}\n\n## Tools\n- Get an article in Hacker News: Use to fetch recent Hacker News articles\n- Wikipedia: Use to retrieve encyclopedic and factual information\n- Google Search (SerpApi): Use for general web searches across the internet\n\n## Rules\n- Always choose the most relevant tool for the query\n- Return concise, clear, and factual responses\n- Summarize results instead of dumping raw data\n- Cite the source of information\n\n## Instructions\n1) Interpret the user's query\n2) Select the best tool (Hacker News, Wikipedia, Google Search)\n3) Retrieve and summarize the answer\n4) Return only the relevant response in plain text\n"
+          "systemMessage": "=## Overview\nYou are the Web Search Agent. Your job is to search the web and retrieve reliable information from news, Wikipedia, or web search when requested. The current date and time is {{ $now.toString() }}\n\n## Tools\n- Get an article in Hacker News: Use to fetch recent Hacker News articles\n- Wikipedia: Use to retrieve encyclopedic and factual information\n- Google Search (SerpApi): Use for general web searches across the internet\n- Tavily Search: Use as an alternative web search tool with AI-optimized results. Preferred for research-heavy queries. Use as a fallback if Google Search is unavailable.\n\n## Rules\n- Always choose the most relevant tool for the query\n- Return concise, clear, and factual responses\n- Summarize results instead of dumping raw data\n- Cite the source of information\n- You may use either Google Search or Tavily Search for web searches. If one fails, try the other.\n\n## Instructions\n1) Interpret the user's query\n2) Select the best tool (Hacker News, Wikipedia, Google Search, or Tavily Search)\n3) Retrieve and summarize the answer\n4) Return only the relevant response in plain text\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agentTool",
@@ -654,6 +654,48 @@
       "name": "Google Search"
     },
     {
+      "parameters": {
+        "toolDescription": "Use this tool to search the web using Tavily Search API. Provides high-quality, AI-optimized search results. Use this as an alternative or fallback to Google Search (SerpAPI).",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ api_key: $credentials.httpHeaderAuth.value, query: $fromAI('query', 'The search query to look up on the web', 'string'), search_depth: 'advanced', max_results: 5, include_answer: true }) }}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "query",
+              "description": "The search query to look up on the web",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        2384,
+        1024
+      ],
+      "id": "b2e7c4a1-9f3d-4a8b-b5e6-1d2c3f4a5b6e",
+      "name": "Tavily Search",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TAVILY_CREDENTIALS_ID",
+          "name": "Tavily API Key"
+        }
+      }
+    },
+    {
       "parameters": {},
       "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
       "typeVersion": 1,
@@ -680,7 +722,7 @@
     },
     {
       "parameters": {
-        "content": "# 🔍 Web Search Agent\nSearches the internet using multiple sources.\n\n**Tools:**\n- 🔎 Google Search (SerpAPI)\n- 📚 Wikipedia\n- 📰 Hacker News\n\n**Model:** Groq llama-3.3-70b-versatile (FREE)",
+        "content": "# 🔍 Web Search Agent\nSearches the internet using multiple sources.\n\n**Tools:**\n- 🔎 Google Search (SerpAPI)\n- 🌐 Tavily Search (AI-optimized)\n- 📚 Wikipedia\n- 📰 Hacker News\n\n**Model:** Groq llama-3.3-70b-versatile (FREE)",
         "height": 496,
         "width": 1040,
         "color": 7
@@ -1436,6 +1478,17 @@
       ]
     },
     "Google Search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily Search": {
       "ai_tool": [
         [
           {

@@ -99,7 +99,7 @@ Photo + Caption  --> Combined understanding
 ```
 Email Agent      --> Send / reply / delete / read-unread emails (Gmail)
 Calendar Agent   --> Create / update / delete / list events (Google Calendar)
-Search Agent     --> Google Search / Wikipedia / Hacker News
+Search Agent     --> Google Search / Tavily Search / Wikipedia / Hacker News
 Social Media     --> Create and save Twitter-X posts (Google Sheets)
 Think Tool       --> Internal reasoning before decisions
 ```
@@ -159,11 +159,11 @@ Image Input  --> Text Reply (with image analysis)
 |  +-------+----------+----------+-------------+-------------+   |
 |          v          v          v             v                  |
 |  +----------++----------++----------++-------------+           |
-|  |  Gmail   ||  Google  || SerpAPI  ||Google Sheets |           |
-|  |  API     || Calendar || Wikipedia||  + Twitter   |           |
-|  |          ||   API    || Hacker   ||    API       |           |
-|  |          ||          || News     ||              |           |
-|  +----------++----------++----------++-------------+           |
+|  |  Gmail   ||  Google  || SerpAPI  || Tavily  ||Google Sheets|          |
+|  |  API     || Calendar || Wikipedia|| Search  ||  + Twitter  |          |
+|  |          ||   API    || Hacker   ||   API   ||    API      |          |
+|  |          ||          || News     ||         ||             |          |
+|  +----------++----------++----------++---------++-------------+          |
 |                          |                                      |
 |                          v                                      |
 |  +------------------------------------------------------------+|
@@ -202,6 +202,7 @@ Orchestrator Agent (Parent)
 |
 +-- Search Agent (Sub-Agent)
 |   +-- Google Search (SerpAPI)
+|   +-- Tavily Search (AI-optimized)
 |   +-- Wikipedia
 |   +-- Hacker News
 |
@@ -346,7 +347,7 @@ START
 |----|-----------|------|-----------|
 | 17 | E-Mails Agent1 | Agent Tool | Send / Reply / Delete / Get Many / Mark Read-Unread |
 | 18 | Calendar Agent | Agent Tool | Create / Delete / Get / Get Many / Update events |
-| 19 | Search Agent | Agent Tool | Google Search / Wikipedia / Hacker News |
+| 19 | Search Agent | Agent Tool | Google Search / Tavily Search / Wikipedia / Hacker News |
 | 20 | Social Media Agent | Agent Tool | Create Tweet (disabled) / Save to Sheets |
 
 ### Output Layer
@@ -392,7 +393,8 @@ START
 | 2 | **Groq API** | AI models (FREE) | console.groq.com |
 | 3 | **Google Cloud** | Calendar + Gmail | console.cloud.google.com |
 | 4 | **SerpAPI** | Google Search | serpapi.com (optional) |
-| 5 | **Google Sheets** | Save social posts | sheets.google.com |
+| 5 | **Tavily** | AI-optimized Web Search | app.tavily.com (optional, alternative to SerpAPI) |
+| 6 | **Google Sheets** | Save social posts | sheets.google.com |
 
 ### n8n Credentials to Create
 
@@ -404,6 +406,7 @@ START
 | Google Calendar | OAuth2 | All Calendar tool nodes |
 | Gmail | OAuth2 | All Gmail tool nodes |
 | SerpAPI | API Key | Google Search node |
+| Tavily API Key | Header Auth | Tavily Search node |
 | Google Sheets | OAuth2 | x post node |
 
 > Node names kept as GPT-4.1-mini for traceability but they actually use Groq Llama 3.3
@@ -520,6 +523,19 @@ Step 6: Activate and Test
 4. In n8n: Create SerpAPI credential with the key
 ```
 
+### Step 5b: Tavily Search Setup (Optional — Alternative to SerpAPI)
+
+```
+1. Go to https://app.tavily.com
+2. Sign up (free tier: 1,000 API credits/month, no credit card required)
+3. Copy your API key (starts with tvly-)
+4. In n8n: Create a Header Auth credential:
+   Name: Tavily API Key
+   Header Name: Authorization
+   Header Value: tvly-YOUR_TAVILY_API_KEY
+Note: Tavily can be used alongside or instead of SerpAPI for web searches.
+```
+
 ### Step 6: Google Sheets Setup
 
 ```
@@ -544,6 +560,7 @@ Calendar nodes:      Google Calendar OAuth
 Gmail nodes:         Gmail OAuth
 Google Sheets:       Google Sheets OAuth
 SerpAPI:             SerpAPI credential
+Tavily Search:       Tavily API Key (Header Auth)
 ```
 
 ### Step 8: Activate and Test
@@ -882,7 +899,7 @@ This project is licensed under the MIT License. Feel free to use it for personal
 |--------|---------|---------|
 | وكيل الايميل | ادارة البريد الالكتروني | ارسال ورد وحذف وقراءة |
 | وكيل التقويم | ادارة المواعيد | انشاء وتعديل وحذف وعرض |
-| وكيل البحث | البحث في الانترنت | جوجل وويكيبيديا واخبار |
+| وكيل البحث | البحث في الانترنت | جوجل وTavily وويكيبيديا واخبار |
 | وكيل السوشيال | ادارة المحتوى | انشاء وحفظ تغريدات |
 | اداة التفكير | التحليل والتقييم | تفكير داخلي قبل القرار |
 
@@ -967,6 +984,7 @@ This project is licensed under the MIT License. Feel free to use it for personal
 |
 +-- وكيل البحث
 |   +-- بحث جوجل
+|   +-- بحث Tavily
 |   +-- ويكيبيديا
 |   +-- اخبار هاكر نيوز
 |
@@ -1002,7 +1020,8 @@ This project is licensed under the MIT License. Feel free to use it for personal
 | 2 | **مفتاح Groq** | نماذج الذكاء الاصطناعي | console.groq.com مجاني |
 | 3 | **Google Cloud** | التقويم والايميل | console.cloud.google.com |
 | 4 | **SerpAPI** | بحث جوجل | serpapi.com اختياري |
-| 5 | **Google Sheets** | حفظ البوستات | sheets.google.com |
+| 5 | **Tavily** | بحث ويب محسن بالذكاء الاصطناعي | app.tavily.com اختياري بديل ل SerpAPI |
+| 6 | **Google Sheets** | حفظ البوستات | sheets.google.com |
 
 ---
 

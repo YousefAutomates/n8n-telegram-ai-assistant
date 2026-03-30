@@ -47,6 +47,18 @@
 # 3. Copy API key
 # 4. In n8n: Create SerpAPI credential
 
+## STEP 5b: Tavily Search (Alternative/Fallback Search - Optional)
+# ---------------------------------------------------------------
+# 1. Go to https://app.tavily.com
+# 2. Sign up (free tier: 1,000 API credits/month, no credit card required)
+# 3. Copy your API key (starts with tvly-)
+# 4. In n8n: Create "Header Auth" credential:
+#    - Name: Tavily API Key
+#    - Header Name: Authorization
+#    - Header Value: tvly-YOUR_TAVILY_API_KEY
+# Note: Tavily provides AI-optimized search results and can be used
+#       alongside or as a fallback to SerpAPI.
+
 ## STEP 6: Google Sheets (for Social Media posts)
 # ---------------------------------------------------------------
 # 1. Create a new Google Sheet named "X-Posts"
