@@ -669,7 +669,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={{ JSON.stringify({ api_key: $credentials.httpHeaderAuth.value, query: $fromAI('query', 'The search query to look up on the web', 'string'), search_depth: 'advanced', max_results: 5, include_answer: true }) }}",
+        "jsonBody": "={{ JSON.stringify({ query: $fromAI('query', 'The search query to look up on the web', 'string'), search_depth: 'advanced', max_results: 5, include_answer: true }) }}",
         "placeholderDefinitions": {
           "values": [
             {

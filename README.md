@@ -158,12 +158,12 @@ Image Input  --> Text Reply (with image analysis)
 |  |  +----+-----+----+-----+----+-----+------+-------+          |   |
 |  +-------+----------+----------+-------------+-------------+   |
 |          v          v          v             v                  |
-|  +----------++----------++----------++-------------+           |
-|  |  Gmail   ||  Google  || SerpAPI  || Tavily  ||Google Sheets|          |
-|  |  API     || Calendar || Wikipedia|| Search  ||  + Twitter  |          |
-|  |          ||   API    || Hacker   ||   API   ||    API      |          |
-|  |          ||          || News     ||         ||             |          |
-|  +----------++----------++----------++---------++-------------+          |
+|  +----------++----------++----------++----------++-------------+  |
+|  |  Gmail   ||  Google  || SerpAPI  ||  Tavily  ||Google Sheets|  |
+|  |  API     || Calendar || Wikipedia||  Search  ||  + Twitter  |  |
+|  |          ||   API    || Hacker   ||   API    ||    API      |  |
+|  |          ||          || News     ||          ||             |  |
+|  +----------++----------++----------++----------++-------------+  |
 |                          |                                      |
 |                          v                                      |
 |  +------------------------------------------------------------+|
@@ -532,7 +532,7 @@ Step 6: Activate and Test
 4. In n8n: Create a Header Auth credential:
    Name: Tavily API Key
    Header Name: Authorization
-   Header Value: tvly-YOUR_TAVILY_API_KEY
+   Header Value: Bearer tvly-YOUR_TAVILY_API_KEY
 Note: Tavily can be used alongside or instead of SerpAPI for web searches.
 ```
 

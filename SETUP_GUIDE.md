@@ -55,7 +55,7 @@
 # 4. In n8n: Create "Header Auth" credential:
 #    - Name: Tavily API Key
 #    - Header Name: Authorization
-#    - Header Value: tvly-YOUR_TAVILY_API_KEY
+#    - Header Value: Bearer tvly-YOUR_TAVILY_API_KEY
 # Note: Tavily provides AI-optimized search results and can be used
 #       alongside or as a fallback to SerpAPI.
 
